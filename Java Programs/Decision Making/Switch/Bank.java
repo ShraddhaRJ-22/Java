@@ -1,0 +1,181 @@
+// Banking 
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+
+class Bank
+{
+	static Scanner sc = new Scanner(System.in);
+	static String name;
+	static String address;
+	static String pancard;
+	static long contact;
+	static long adhar;
+	static int pin;
+	static double balance;
+	static ArrayList<String> transaction = new ArrayList<String>(); 
+	public static void main(String[] args)
+	{
+		welcomeLoop:
+		for (;;)
+		{
+			System.out.println("\n WELCOME ");
+			System.out.println("**** LAXMI CHIT FUND ****");
+			System.out.print("1.CREATE ACCOUNT \n2.LOGIN\n");
+			System.out.print("Enter your response : ");
+			int resp = sc.nextInt();
+			sc.nextLine();
+
+			switch (resp)
+			{
+				case 1:
+				{
+					if (name != null)
+					{
+						System.out.println("\n ACCOUNT ALREADY EXISTS \n");
+						continue;
+					}
+					System.out.println("\n ACCOUNT CREATION PAGE \n");
+					System.out.print("Enter your name : ");
+					name = sc.nextLine();
+					
+					System.out.print("Enter your address : ");
+					address = sc.nextLine();
+
+					System.out.print("Enter your contact : ");
+					contact = sc.nextLong();
+
+					System.out.print("Enter your adhar : ");
+					adhar = sc.nextLong();
+
+					System.out.print("Enter your pancard : ");
+					pancard = sc.next();
+
+					System.out.print("Enter your opening balance : ");
+					balance = sc.nextDouble();
+					transaction.add("Deposit (Creation):- "+balance);
+					
+					System.out.print("Enter your pin : ");
+					pin = sc.nextInt();
+					
+					System.out.println("\n ACCOUNT CREATED SUCCESSFULLY \n");
+					break;
+				}
+
+				case 2:
+				{
+					if (name == null)
+					{
+						System.out.println("\n CREATE YOUR ACCOUNT FIRST \n");
+						continue;
+					}
+
+					System.out.println("\n LOGIN MODULE \n");
+
+					System.out.print("Enter your contact : ");
+					long userContact = sc.nextLong();
+
+					System.out.print("Enter your pin : ");
+					int userPin = sc.nextInt();
+
+					if (contact == userContact && pin == userPin)
+					{
+						System.out.println("\n LOGIN SUCCESSFULLY \n");
+
+						for (;;)
+						{
+							System.out.println("\n **** FEATURES **** ");
+							System.out.println("1.DEPOSIT \n2.WITHDRAW \n3.CHECK BALANCE \n4.transactions \n5.LOGOUT");
+							System.out.print("Enter your option : ");
+							int opt = sc.nextInt();
+
+							switch (opt)
+							{
+								case 1:
+								{
+									System.out.print("Enter your deposit amount : ");
+									double depAmt = sc.nextDouble();
+
+									balance = balance + depAmt;
+									transaction.add("DEPOSIT :- "+depAmt);
+
+									System.out.println("\n AMOUNT DEPOSITED SUCCESSFULLY \n");
+									break;
+								}
+
+								case 2:
+								{
+									System.out.print("Enter your withdraw amount : ");
+									double wdrAmt = sc.nextDouble();
+
+									System.out.print("Enter your pin : ");
+									int pin2 = sc.nextInt();
+
+									if (pin2 == pin)
+									{
+										if (wdrAmt <= balance)
+										{
+											balance = balance - wdrAmt;
+											transaction.add("WITHDRAW:- "+wdrAmt);
+											System.out.println("\n AMOUNT DEBITED SUCCESSFULLY \n");
+										}
+										else
+										{
+											System.out.println("\n INSUFFICIENT FUNDS \n");
+										}
+									}
+									else
+									{
+										System.out.println("\n INVALID PIN \n");
+									}
+									break;
+								}
+
+								case 3:
+								{
+									System.out.print("Enter your pin : ");
+									int pin2 = sc.nextInt();
+
+									if (pin2 == pin)
+									{
+										System.out.println("\n Your balance is : " + balance);
+									}
+									else
+									{
+										System.out.println("\n INVALID PIN \n");
+									}
+									break;
+								}
+								case 4: 
+								{
+									System.out.println("\n *** TRANSACTION ***");
+									for(String ele : transaction){
+										System.out.println(ele);
+									}
+									System.out.println();
+									break;
+								}
+								case 5:
+								{
+									System.out.println("\n THANK YOU & VISIT AGAIN \n");
+									continue welcomeLoop;
+								}
+
+								default:
+									System.out.println("\n INVALID RESPONSE \n");
+							}
+						}
+					}
+					else
+					{
+						System.out.println("\n INVALID CREDENTIALS \n");
+					}
+					break;
+				}
+
+				default:
+					System.out.println("\n INVALID RESPONSE \n");
+			}
+		}
+	}
+}
